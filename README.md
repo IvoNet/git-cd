@@ -9,6 +9,10 @@ It will keep statistics of the most chosen projects and if you run `gcd` without
 
 If it finds only one entry it will move into that folder, but if it finds more entries it will present a menu.
 
+The `cdi` command is a small extention on the `gcd` command for developers like me. If you run that it will not only
+move into the folder but also open IntelliJ in that folder. In order for this to work you need to have IntelliJ on your
+machine and the `Tools` > `Create Command-line launcher...` installed.
+
 # How to use / Install
 
 * Clone this project in your home folder to `.gcd`
@@ -21,8 +25,8 @@ git clone https://github.com/IvoNet/git-cd.git .gcd
 * add the following aliases to your `.profile` / `.zshrc` / `.bashrc` or other startup script
 
 ```bash
-alias gcd="source \${HOME}/.gcd/bin/gcd"
-alias cdi="source \${HOME}/.gcd/bin/cdi"
+alias gcd="source \${HOME}/.gcd/bin/gcd || true"
+alias cdi="source \${HOME}/.gcd/bin/cdi || true"
 alias gcdreset="echo \"Resetting: \$(rm -fv \${HOME}/.gcd/gcd.cache 2>/dev/null)\""
 ```
 

@@ -7,6 +7,9 @@ if [[ ! -d "${GCD_DIR}" ]]; then
     mkdir -p "${HOME}/.gcd"
 fi
 
+python3 ${GCD_BIN}/gcd.py --zap
+python3 ${GCD_BIN}/gcd.py --export-cache
+
 if [[ ! -f "${CACHE_FILE}" ]]; then
     echo "Scanning for git projects..."
     find ${PROJECTS_DIR} -type d -name .git -execdir 'pwd' \; | sort>${CACHE_FILE}

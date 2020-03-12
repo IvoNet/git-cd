@@ -80,6 +80,24 @@ def export_cache_file(conn, cache_file):
             [fo.write(x[0] + "\n") for x in rows]
 
 
+def delete(conn, project):
+    with conn:
+        c = conn.cursor()
+        c.execute("DELETE FROM projects WHERE project =?", (project,))
+
+
+def zap_entries(conn):
+    with conn:
+        c = conn.cursor()
+        c.execute("SELECT project FROM projects")
+        rows = c.fetchall()
+        rows = [x[0] for x in rows]
+        for project in rows:
+            if not os.path.isdir(project):
+                print("Deleting project entry: %s" % project)
+                delete(conn, project)
+
+
 def main(args):
     if args.create_db:
         if os.path.isfile(DATABASE):
@@ -98,9 +116,11 @@ def main(args):
         if args.export_cache:
             export_cache_file(conn, CACHE_FILE)
 
+        if args.zap:
+            zap_entries(conn)
+
         if args.project:
             increment(conn, args.project)
-            export_cache_file(conn, CACHE_FILE)
 
 
 if __name__ == '__main__':
@@ -109,5 +129,6 @@ if __name__ == '__main__':
     parser.add_argument('-i', '--import-cache', action='store_true', help="Import the cache")
     parser.add_argument('-c', '--create-db', action='store_true', help="(Re-)Creates the database")
     parser.add_argument('-e', '--export-cache', action='store_true', help="Exports the database to cache")
+    parser.add_argument('-z', '--zap', action='store_true', help="Zaps non existing projects from database")
     parser.add_argument('-p', '--project', help="Increments the project")
     main(parser.parse_args())
