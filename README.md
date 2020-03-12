@@ -25,8 +25,8 @@ git clone https://github.com/IvoNet/git-cd.git .gcd
 * add the following aliases to your `.profile` / `.zshrc` / `.bashrc` or other startup script
 
 ```bash
-alias gcd="source \${HOME}/.gcd/bin/gcd || true"
-alias cdi="source \${HOME}/.gcd/bin/cdi || true"
+alias gcd="source \${HOME}/.gcd/bin/gcd"
+alias cdi="source \${HOME}/.gcd/bin/cdi"
 alias gcdreset="echo \"Resetting: \$(rm -fv \${HOME}/.gcd/gcd.cache 2>/dev/null)\""
 ```
 
