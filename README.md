@@ -18,12 +18,12 @@ cd ~
 git clone https://github.com/IvoNet/git-cd.git .gcd
 ```
 
-* add the following aliases to your .profile / .zshrc or other startup script
+* add the following aliases to your `.profile` / `.zshrc` / `.bashrc` or other startup script
 
 ```bash
 alias gcd="source \${HOME}/.gcd/bin/gcd"
 alias cdi="source \${HOME}/.gcd/bin/cdi"
-alias gcdr="echo \"Resetting: \$(rm -fv \${HOME}/.gcd/gcd.cache 2>/dev/null)\""
+alias gcdreset="echo \"Resetting: \$(rm -fv \${HOME}/.gcd/gcd.cache 2>/dev/null)\""
 ```
 
 * Start a new terminal session (shell)
@@ -52,3 +52,28 @@ gcd
 ```bash
 gcd ebook
 ```
+
+## Reset the cache
+
+run the following command and the next time you use gcd it will rescan everything again.
+
+```bash
+gcdreset
+```
+
+# Advanced usage
+
+## Reset completely
+
+```bash
+cd ~/.gcd
+rm -f gcd.cache gcd.sqlite
+gcd
+```
+
+## Use `gcd.py` standalone
+
+The gcd.py script in the bin folder does function standalone but is specifically written for the gcd function.
+It maintains the statistics and re-generates the gcd.cache file with the new sorting.
+
+just run `python3 ./gcd.py -h` to get specific help
