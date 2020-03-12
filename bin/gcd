@@ -1,0 +1,56 @@
+#!/usr/bin/env bash
+PROJECTS_DIR="${HOME}"
+GCD_DIR="${HOME}/.gcd"
+GCD_BIN="${GCD_DIR}/bin"
+CACHE_FILE="${GCD_DIR}/gcd.cache"
+if [[ ! -d "${GCD_DIR}" ]]; then
+    mkdir -p "${HOME}/.gcd"
+fi
+
+if [[ ! -f "${CACHE_FILE}" ]]; then
+    echo "Scanning for git projects..."
+    find ${PROJECTS_DIR} -type d -name .git -execdir 'pwd' \; | sort>${CACHE_FILE}
+    python3 ${GCD_BIN}/gcd.py -i
+fi
+
+if [[ -z "$1" ]]; then
+    found=$(cat "${CACHE_FILE}"|sed "s~${PROJECTS_DIR}/~~g")
+else
+    found=$(grep $1 ${CACHE_FILE})
+fi
+
+if [[ $(echo ${found}| wc -l) -gt 1 ]]; then
+     lines=( $(echo ${found} |sed "s~${PROJECTS_DIR}/~~g") )
+     count=$(echo ${found}|wc -l)
+     PS3="Pick a project: "
+     select chosen in ${lines}; do
+        case $REPLY in
+            q|0)
+                echo "Quitting...."
+                return 1
+                ;;
+            *)
+                if [[ 1 -le "$REPLY" ]] && [[ $REPLY -le ${count} ]]; then
+                    project="${PROJECTS_DIR}/${chosen}"
+                    echo "Changing to: $project"
+                    python3 ${GCD_BIN}/gcd.py -p ${project}
+                    cd "${project}"
+                    break
+                else
+                    echo "Wrong choice."
+                    echo "Please try again..."
+                fi
+                ;;
+        esac
+     done
+else
+    project=$(echo ${found}|head -1)
+    if [[ -z "${project}" ]]; then
+        echo "Project not found..."
+        return 1
+    else
+        echo "Changing to: ${project}"
+        python3 ${GCD_BIN}/gcd.py -p ${project}
+        cd "${project}"
+    fi
+fi
