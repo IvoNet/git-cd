@@ -18,7 +18,7 @@ if [[ ! -f "${CACHE_FILE}" ]]; then
 fi
 
 if [[ -z "$1" ]]; then
-    found=$(cat "${CACHE_FILE}"|sed "s~${PROJECTS_DIR}/~~g")
+    found=$(cat "${CACHE_FILE}"|sed "s~${PROJECTS_DIR}/~~g"|head -n 10)
 else
     found=$(grep $1 ${CACHE_FILE})
 fi
