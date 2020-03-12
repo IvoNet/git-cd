@@ -2,13 +2,11 @@
 import argparse
 import os
 import sqlite3
-import sys
 from pathlib import Path
 from sqlite3 import Error
 
 DATABASE = r"%s/.gcd/gcd.sqlite" % str(Path.home())
 CACHE_FILE = r"%s/.gcd/gcd.cache" % str(Path.home())
-
 
 SQL_CREATE_PROJECTS_TABLE = """
                             CREATE TABLE IF NOT EXISTS projects (
@@ -45,14 +43,6 @@ def create_table(conn, create_table_sql):
         c.execute(create_table_sql)
     except Error as e:
         print(e)
-
-
-def select(conn, project) -> list:
-    with conn:
-        c = conn.cursor()
-        c.execute("SELECT * FROM projects WHERE project=?", (project,))
-        rows = c.fetchall()
-    return rows
 
 
 def increment(conn, project):

@@ -10,7 +10,11 @@ fi
 if [[ ! -f "${CACHE_FILE}" ]]; then
     echo "Scanning for git projects..."
     find ${PROJECTS_DIR} -type d -name .git -execdir 'pwd' \; | sort>${CACHE_FILE}
-    python3 ${GCD_BIN}/gcd.py -i
+    if [[ ! -f "${GCD_DIR}/gcd.sqlite" ]]; then
+        python3 ${GCD_BIN}/gcd.py --create-db
+    else
+        python3 ${GCD_BIN}/gcd.py --import-cache
+    fi
 fi
 
 if [[ -z "$1" ]]; then
@@ -32,8 +36,8 @@ if [[ $(echo ${found}| wc -l) -gt 1 ]]; then
             *)
                 if [[ 1 -le "$REPLY" ]] && [[ $REPLY -le ${count} ]]; then
                     project="${PROJECTS_DIR}/${chosen}"
-                    echo "Changing to: $project"
                     python3 ${GCD_BIN}/gcd.py -p ${project}
+                    echo "Changing to: $project"
                     cd "${project}"
                     break
                 else
@@ -49,8 +53,8 @@ else
         echo "Project not found..."
         return 1
     else
-        echo "Changing to: ${project}"
         python3 ${GCD_BIN}/gcd.py -p ${project}
+        echo "Changing to: ${project}"
         cd "${project}"
     fi
 fi
