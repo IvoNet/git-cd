@@ -18,7 +18,7 @@ cd ~
 git clone https://github.com/IvoNet/git-cd.git .gcd
 ```
 
-* add the following aliasses to your .profile / .zshrc or other startup script
+* add the following aliases to your .profile / .zshrc or other startup script
 
 ```bash
 alias gcd="source \${HOME}/.gcd/bin/gcd"
