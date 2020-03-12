@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+
 PROJECTS_DIR="${HOME}"
 GCD_DIR="${HOME}/.gcd"
 GCD_BIN="${GCD_DIR}/bin"
@@ -21,13 +22,13 @@ if [[ ! -f "${CACHE_FILE}" ]]; then
 fi
 
 if [[ -z "$1" ]]; then
-    found=$(cat "${CACHE_FILE}"|sed "s~${PROJECTS_DIR}/~~g"|head -n 10)
+    found=$(cat "${CACHE_FILE}"|sed "s~${PROJECTS_DIR}/~~g"|head -n ${GCD_FAVS:-10})
 else
     found=$(grep $1 ${CACHE_FILE})
 fi
 
 if [[ $(echo ${found}| wc -l) -gt 1 ]]; then
-     lines=( $(echo ${found} |sed "s~${PROJECTS_DIR}/~~g") )
+     lines=( $(echo ${found} |sed "s~${PROJECTS_DIR}/~~g"|sed "s/ /?/g") )
      count=$(echo ${found}|wc -l)
      PS3="Pick a project: "
      select chosen in ${lines}; do
@@ -39,6 +40,7 @@ if [[ $(echo ${found}| wc -l) -gt 1 ]]; then
             *)
                 if [[ 1 -le "$REPLY" ]] && [[ $REPLY -le ${count} ]]; then
                     project="${PROJECTS_DIR}/${chosen}"
+                    project=$(echo ${project}|sed "s/?/ /g")
                     python3 ${GCD_BIN}/gcd.py -p ${project}
                     echo "Changing to: $project"
                     cd "${project}"
