@@ -9,16 +9,19 @@ if [[ ! -d "${GCD_DIR}" ]]; then
 fi
 
 python3 ${GCD_BIN}/gcd.py --zap
-python3 ${GCD_BIN}/gcd.py --export-cache
 
 if [[ ! -f "${CACHE_FILE}" ]]; then
     echo "Scanning for git projects..."
     find ${PROJECTS_DIR} -type d -name .git -execdir 'pwd' \; | sort>${CACHE_FILE}
     if [[ ! -f "${GCD_DIR}/gcd.sqlite" ]]; then
+        echo "Initializing metrics db..."
         python3 ${GCD_BIN}/gcd.py --create-db
     else
+        echo "Importing into metrics db..."
         python3 ${GCD_BIN}/gcd.py --import-cache
     fi
+else
+    python3 ${GCD_BIN}/gcd.py --export-cache
 fi
 
 if [[ -z "$1" ]]; then
