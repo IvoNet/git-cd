@@ -88,7 +88,7 @@ def export_cache_file(conn, cache_file):
     with conn:
         c = conn.cursor()
         with open(cache_file, "w") as fo:
-            c.execute("SELECT project FROM projects ORDER BY called DESC, project ASC")
+            c.execute("SELECT project FROM projects ORDER BY called DESC, project")
             rows = c.fetchall()
             [fo.write(x[0] + "\n") for x in rows]
 
