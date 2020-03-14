@@ -20,9 +20,9 @@ if [[ ! -f "${CACHE_FILE}" ]]; then
         echo "Importing into metrics db..."
         python3 ${GCD_BIN}/gcd.py --import-cache
     fi
-else
-    python3 ${GCD_BIN}/gcd.py --export-cache
 fi
+
+python3 ${GCD_BIN}/gcd.py --export-cache
 
 if [[ -z "$1" ]]; then
     found=$(cat "${CACHE_FILE}"|sed "s~${PROJECTS_DIR}/~~g"|head -n ${GCD_FAVS:-10})

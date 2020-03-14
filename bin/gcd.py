@@ -22,14 +22,12 @@ def create_connection(db_file):
     :param db_file: database file
     :return: Connection object or None
     """
-    conn = None
     try:
-        conn = sqlite3.connect(db_file)
-        return conn
+        return sqlite3.connect(db_file)
     except Error as e:
         print(e)
 
-    return conn
+    return None
 
 
 def create_table(conn, create_table_sql):
@@ -46,6 +44,11 @@ def create_table(conn, create_table_sql):
 
 
 def increment(conn, project):
+    """ Increment the called field on a project
+    :param conn: Connection object
+    :param project: project directory
+    :return:
+    """
     with conn:
         c = conn.cursor()
         c.execute("""INSERT OR REPLACE 
@@ -57,6 +60,11 @@ def increment(conn, project):
 
 
 def create_rows(conn, cache_file):
+    """ Create project entries in the database if it does not yet exist.
+    :param conn: Connection object
+    :param cache_file: the cach_file to import
+    :return:
+    """
     with conn:
         c = conn.cursor()
         with open(cache_file) as fi:
@@ -72,6 +80,11 @@ def create_rows(conn, cache_file):
 
 
 def export_cache_file(conn, cache_file):
+    """ Export the newly sorted cache file based. Sorted based on the metrix
+    :param conn: Connection object
+    :param cache_file: the cache_file location
+    :return:
+    """
     with conn:
         c = conn.cursor()
         with open(cache_file, "w") as fo:
@@ -81,12 +94,22 @@ def export_cache_file(conn, cache_file):
 
 
 def delete(conn, project):
+    """ Deletes a project from the metrics db.
+    :param conn: Connection object
+    :param project:
+    :return:
+    """
     with conn:
         c = conn.cursor()
         c.execute("DELETE FROM projects WHERE project =?", (project,))
 
 
 def zap_entries(conn):
+    """ Zaps (deletes) entries from the metrics db if the project does not
+    physically exist on the machine.
+    :param conn: Connection object
+    :return:
+    """
     with conn:
         c = conn.cursor()
         c.execute("SELECT project FROM projects")
