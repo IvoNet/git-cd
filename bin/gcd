@@ -15,17 +15,16 @@ if [[ ! -f "${CACHE_FILE}" ]]; then
     if [[ ! -f "${GCD_DIR}/gcd.sqlite" ]]; then
         echo "Initializing metrics db..."
         python3 ${GCD_BIN}/gcd.py --create-db
-    else
-        echo "Importing into metrics db..."
-        python3 ${GCD_BIN}/gcd.py --import-cache
-        python3 ${GCD_BIN}/gcd.py --zap
     fi
+    echo "Importing into metrics db..."
+    python3 ${GCD_BIN}/gcd.py --import-cache
+    python3 ${GCD_BIN}/gcd.py --zap
 fi
 
 python3 ${GCD_BIN}/gcd.py --export-cache
 
 if [[ -z "$1" ]]; then
-    found=$(cat "${CACHE_FILE}"|sed "s~${PROJECTS_DIR}/~~g"|head -n ${GCD_FAVS:-10})
+    found=$(cat "${CACHE_FILE}"|sed "s~${PROJECTS_DIR}/~~g"|head -n ${GCD_FAVORITES:-10})
 else
     found=$(grep $1 ${CACHE_FILE})
 fi
