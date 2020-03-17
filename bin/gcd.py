@@ -131,7 +131,6 @@ def main(args):
     with conn:
         if args.create_db:
             create_table(conn, SQL_CREATE_PROJECTS_TABLE)
-            create_rows(conn, CACHE_FILE)
 
         if args.import_cache:
             create_rows(conn, CACHE_FILE)

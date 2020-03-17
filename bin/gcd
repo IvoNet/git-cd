@@ -4,6 +4,7 @@ PROJECTS_DIR="${HOME}"
 GCD_DIR="${HOME}/.gcd"
 GCD_BIN="!!GCDLIBEXECBIN!!"
 CACHE_FILE="${GCD_DIR}/gcd.cache"
+
 if [[ ! -d "${GCD_DIR}" ]]; then
     mkdir -p "${GCD_DIR}"
 fi
