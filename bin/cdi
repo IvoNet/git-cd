@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 GCD_DIR="${HOME}/.gcd"
-GCD_BIN="${GCD_DIR}/bin"
+GCD_BIN="/usr/local/bin"
 
 source ${GCD_BIN}/gcd $1
 if [[ $? -eq 0 ]]; then
