@@ -2,10 +2,10 @@
 
 PROJECTS_DIR="${HOME}"
 GCD_DIR="${HOME}/.gcd"
-GCD_BIN="${GCD_DIR}/bin"
+GCD_BIN="/usr/local/opt/gcd/libexec/bin"
 CACHE_FILE="${GCD_DIR}/gcd.cache"
 if [[ ! -d "${GCD_DIR}" ]]; then
-    mkdir -p "${HOME}/.gcd"
+    mkdir -p "${GCD_DIR}"
 fi
 
 python3 ${GCD_BIN}/gcd.py --zap
