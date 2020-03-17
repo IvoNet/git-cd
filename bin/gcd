@@ -8,20 +8,30 @@ if [[ ! -d "${GCD_DIR}" ]]; then
     mkdir -p "${GCD_DIR}"
 fi
 
+if [[ ! -f "${GCD_DIR}/gcd.sqlite" ]]; then
+    echo "Initializing metrics db..."
+    python3 ${GCD_BIN}/gcd.py --create-db
+    if [[ -f "${CACHE_FILE}" ]]; then
+        echo "Importing into metrics db..."
+        python3 ${GCD_BIN}/gcd.py --import-cache
+        python3 ${GCD_BIN}/gcd.py --zap
+    fi
+fi
 
 if [[ ! -f "${CACHE_FILE}" ]]; then
     echo "Scanning for git projects..."
     find ${PROJECTS_DIR} -type d -name .git -execdir 'pwd' \; | sort>${CACHE_FILE}
-    if [[ ! -f "${GCD_DIR}/gcd.sqlite" ]]; then
-        echo "Initializing metrics db..."
-        python3 ${GCD_BIN}/gcd.py --create-db
-    fi
     echo "Importing into metrics db..."
     python3 ${GCD_BIN}/gcd.py --import-cache
     python3 ${GCD_BIN}/gcd.py --zap
 fi
 
-python3 ${GCD_BIN}/gcd.py --export-cache
+python3 ${GCD_BIN}/gcd.py --export-cache 2>/dev/null
+if [[ $? -ne 0 ]]; then
+    rm -rf "${GCD_DIR}" 2>/dev/null
+    echo "[ERROR] The metrics db was corrupted. Fixed the problem. Please run again..."
+    return 1
+fi
 
 if [[ -z "$1" ]]; then
     found=$(cat "${CACHE_FILE}"|sed "s~${PROJECTS_DIR}/~~g"|head -n ${GCD_FAVORITES:-10})
