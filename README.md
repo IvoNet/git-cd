@@ -66,3 +66,12 @@ run the following command to reset all the metrics.
 gcdreset
 ```
 
+# Advanced
+
+## Look at the metrics db
+
+e.g.:
+
+```bash
+sqlite3 -readonly -quote ~/.gcd/gcd.sqlite "SELECT * FROM projects ORDER BY called DESC, project LIMIT 20"
+```
