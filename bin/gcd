@@ -15,9 +15,10 @@ if [[ ! -f "${GCD_DIR}/gcd.sqlite" ]]; then
     if [[ -f "${CACHE_FILE}" ]]; then
         echo "Importing into metrics db..."
         python3 ${GCD_BIN}/gcd.py --import-cache
-        python3 ${GCD_BIN}/gcd.py --zap
     fi
 fi
+
+python3 ${GCD_BIN}/gcd.py --zap
 
 if [[ ! -f "${CACHE_FILE}" ]]; then
     echo "Scanning for git projects..."
@@ -25,7 +26,6 @@ if [[ ! -f "${CACHE_FILE}" ]]; then
     find ${PROJECTS_DIR} -type d -name .git -execdir 'pwd' \; | sort>${CACHE_FILE}
     echo "Importing into metrics db..."
     python3 ${GCD_BIN}/gcd.py --import-cache
-    python3 ${GCD_BIN}/gcd.py --zap
 fi
 
 python3 ${GCD_BIN}/gcd.py --export-cache 2>/dev/null
