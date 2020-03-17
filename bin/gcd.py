@@ -116,7 +116,7 @@ def zap_entries(conn):
         rows = c.fetchall()
         rows = [x[0] for x in rows]
         for project in rows:
-            if not os.path.isdir(project):
+            if not os.path.isdir(project+'/.git'):
                 print("Deleting project entry: %s" % project)
                 delete(conn, project)
 
