@@ -15,23 +15,14 @@ machine and the `Tools` > `Create Command-line launcher...` installed.
 
 # How to use / Install
 
-* Clone this project in your home folder to `.gcd`
+With [Homebrew](https://brew.sh)
 
 ```bash
-cd ~
-git clone https://github.com/IvoNet/git-cd.git .gcd
+brew tap ivonet/cli
+brew install git-cd
 ```
 
-* add the following aliases to your `.profile` / `.zshrc` / `.bashrc` or other startup script
-
-```bash
-alias gcd="source \${HOME}/.gcd/bin/gcd"
-alias cdi="source \${HOME}/.gcd/bin/cdi"
-alias gcdreset="echo \"Resetting: \$(rm -fv \${HOME}/.gcd/gcd.cache 2>/dev/null)\""
-```
-
-* Start a new terminal session (shell)
-* Try: `gcd gcd` (this can take a while the first time)
+The follow the instructions given by the install
 
 
 # Example commands
@@ -39,13 +30,15 @@ alias gcdreset="echo \"Resetting: \$(rm -fv \${HOME}/.gcd/gcd.cache 2>/dev/null)
 ## search with regular expression
 
 ```bash
-gcd "ebook/.*pdfparser$" 
+gcd "ebook/.*parser$" 
 ```
 
 ## do nothing
 
 If no parameters were given it will present the top 10 list. 
 If no top 10 is (yet) available it will present the first 10 projects sorted by name
+If you want another amount to be shown you can add e.g. `export GCD_FAVORITES=20` to your 
+.zshrc / .bashrc or equivalent
 
 ```bash
 gcd
@@ -57,27 +50,18 @@ gcd
 gcd ebook
 ```
 
-## Reset the cache
+## Rescan for git repos
 
-run the following command and the next time you use gcd it will rescan everything again.
+run the following command to rescan for projects.
+
+```bash
+gcdrescan
+```
+
+## Reset the metrics
+
+run the following command to reset all the metrics.
 
 ```bash
 gcdreset
 ```
-
-# Advanced usage
-
-## Reset completely
-
-```bash
-cd ~/.gcd
-rm -f gcd.cache gcd.sqlite
-gcd
-```
-
-## Use `gcd.py` standalone
-
-The gcd.py script in the bin folder does function standalone but is specifically written for the gcd function.
-It maintains the statistics and re-generates the gcd.cache file with the new sorting.
-
-just run `python3 ./gcd.py -h` to get specific help
