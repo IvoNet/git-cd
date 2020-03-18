@@ -63,7 +63,7 @@ gcdrescan
 run the following command to reset all the metrics.
 
 ```bash
-gcdreset
+gcdresetmetrics
 ```
 
 ## Scan different base folder
