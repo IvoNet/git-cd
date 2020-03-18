@@ -66,6 +66,15 @@ run the following command to reset all the metrics.
 gcdreset
 ```
 
+## Scan different base folder
+
+The default scanned base folder is ${HOME}, but you can override this
+by exporting the following key in your startup scripts (.zshrc / .bashrc / or equivalent)
+
+```bash
+export GCD_PROJECTS_DIR="<your directory here>"
+```
+
 # Advanced
 
 ## Look at the metrics db
@@ -76,6 +85,14 @@ e.g.:
 sqlite3 -readonly -quote ~/.gcd/gcd.sqlite "SELECT * FROM projects ORDER BY called DESC, project LIMIT 20"
 ```
 
+## Cron job for updating
+
+You can let the tool update itself at interval.
+Please type the following for more help:
+
+```bash
+brew info git-cd
+```
 
 # License
 
