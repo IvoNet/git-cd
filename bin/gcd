@@ -1,6 +1,5 @@
 #!/usr/bin/env bash
 
-PROJECTS_DIR="${HOME}"
 GCD_DIR="${HOME}/.gcd"
 GCD_BIN="!!GCDLIBEXECBIN!!"
 CACHE_FILE="${GCD_DIR}/gcd.cache"
@@ -23,7 +22,7 @@ python3 ${GCD_BIN}/gcd.py --zap
 if [[ ! -f "${CACHE_FILE}" ]]; then
     echo "Scanning for git projects..."
     echo "This can take a while depending on the number of git projects found..."
-    find ${PROJECTS_DIR} -type d -name .git -execdir 'pwd' \; | sort>${CACHE_FILE}
+    find ${GCD_PROJECTS_DIR:-${HOME}} -type d -name .git -execdir 'pwd' \; 2>/dev/null | sort>${CACHE_FILE}
     echo "Importing into metrics db..."
     python3 ${GCD_BIN}/gcd.py --import-cache
 fi

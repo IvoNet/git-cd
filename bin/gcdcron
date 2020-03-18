@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+
+GCD_DIR="${HOME}/.gcd"
+GCD_BIN="!!GCDLIBEXECBIN!!"
+CACHE_FILE="${GCD_DIR}/gcd.cache"
+
+if [[ ! -d "${GCD_DIR}" ]]; then
+    mkdir -p "${GCD_DIR}"
+fi
+
+find ${GCD_PROJECTS_DIR:-${HOME}} -type d -name .git -execdir 'pwd' \; 2>/dev/null | sort>"${CACHE_FILE}.new"
+rm -f "${CACHE_FILE}"
+mv "${CACHE_FILE}.new" "${CACHE_FILE}"
+python3 ${GCD_BIN}/gcd.py --import-cache
