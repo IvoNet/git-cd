@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
-GCD_BIN="!!GCDLIBEXECBIN!!"
+GCD_BIN="${GCD_DEV_BIN:-!!GCDLIBEXECBIN!!}"
+
 ${GCD_BIN}/gcdcron &
 echo "git-cd rescan started in background."
 echo "This should not disrupt your current usage of gcd."

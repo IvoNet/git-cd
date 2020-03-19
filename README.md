@@ -24,6 +24,20 @@ brew install git-cd
 
 The follow the instructions given by the install
 
+# Commands
+
+| Command     | Description                                  | Syntax                            |
+|:----------- |:---------------------------------------------|:----------------------------------|
+| gcd         | git (global) change directory                | `gcd ["regex"/word]`              |
+| ccd         | Change directory based on alias              | `ccd [alias]`                     |
+| ccd-help    | show all aliases with their directories      | `ccd-help`                        |
+| cdi         | gcd + open Intellij Idea in that directory   | `cdi ["regex"/word]`              |
+| gcd-alias   | Set an alias to the active folder            | `gcd-alias <alias>`               |
+| gcd-rescan  | Rebuild the cache in the background          | `gcd-rescan`                      |
+| gcd-unalias | removes an alias                             | `gcd-unalias <alias>`             |
+| gcd-zap     | Zaps all non existing directories from cache | `gcd-zap`                         |
+| gcdcron     | optional cron job to rebuild the cache       |  -                                |
+
 
 # Example commands
 
@@ -42,28 +56,6 @@ If you want another amount to be shown you can add e.g. `export GCD_FAVORITES=20
 
 ```bash
 gcd
-```
-
-## Search by simple string
-
-```bash
-gcd ebook
-```
-
-## Rescan for git repos
-
-run the following command to rescan for projects.
-
-```bash
-gcdrescan
-```
-
-## Reset the metrics
-
-run the following command to reset all the metrics.
-
-```bash
-gcdresetmetrics
 ```
 
 ## Scan different base folder
@@ -93,6 +85,19 @@ Please type the following for more help:
 ```bash
 brew info git-cd
 ```
+
+## Dev bin dir
+
+In order to test new functionality it can be handy do set the GCD_BIN dir to this projects bin dir.
+in order to do that do the following:
+
+* open a terminal in the this projects bin dir
+
+```bash
+export GCD_DEV_DIR="$(pwd)"
+```
+
+* That will enable dev for this terminal shell session
 
 # License
 
