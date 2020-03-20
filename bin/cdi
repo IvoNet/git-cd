@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 GCD_DIR="${HOME}/.gcd"
 GCD_BIN="${GCD_DEV_BIN:-/usr/local/bin}"
-GCD_COMMAND=${GCD_EXEC:-idea .}
+GCD_COMMAND="${GCD_EXEC:-ls -lsa}"
 
 source ${GCD_BIN}/gcd $1
 if [[ $? -eq 0 ]]; then

@@ -9,10 +9,6 @@ It will keep statistics of the most chosen projects and if you run `gcd` without
 
 If it finds only one entry it will move into that folder, but if it finds more entries it will present a menu.
 
-The `cdi` command is a small extention on the `gcd` command for developers like me. If you run that it will not only
-move into the folder but also open IntelliJ in that folder. In order for this to work you need to have IntelliJ on your
-machine and the `Tools` > `Create Command-line launcher...` installed.
-
 # How to use / Install
 
 With [Homebrew](https://brew.sh)
@@ -50,7 +46,7 @@ You can also export it manually to change a setting for the current active shell
 |:--------------- |:----------------------------------------------|:----------------------------------|
 | GCD_FAVORITES   | determine the amount of favorites to show     | `export GCD_FAVORITES=20`         |
 | GCD_PROJECTS_DIR| overrides the default ${HOME} dir to scan     | `export GCD_PROJECTS_DIR="/"`     |
-| GCD_EXEC        | exec this command after cdi (default `idea .`)| `export GCD_EXEC="code ."`        |
+| GCD_EXEC        | exec command after cdi (default `ls -lsa`)    | `export GCD_EXEC="idea ."`        |
 | GCD_DEV_BIN     | change bin location for dev purposes          | `export GCD_DEV_BIN="$(pwd)"`     |
   
 
@@ -82,6 +78,28 @@ by exporting the following key in your startup scripts (.zshrc / .bashrc / or eq
 ```bash
 export GCD_PROJECTS_DIR="<your directory here>"
 ```
+
+## Run a command after cd
+
+The `cdi` command is a small extention on the `gcd` command.
+It will run a command after it performed the change directory. This defaults to `ls -lsa` for showing 
+the directory contents.
+
+If you want to change this setting to e.g. IntelliJ or VS Code this is easily done.
+
+### Intellij 
+
+* add `export GCD_EXEC="idea ."` to your startup scripts (.zshrc / .bashrc / or equivalent). In order for this to work you need to have IntelliJ on your machine and the `Tools` > `Create Command-line launcher...` installed.
+* refresh the terminal shells 
+* try `cdi` command
+
+### Visual Studio Code
+
+* add `export GCD_EXEC="code ."` to your startup scripts (.zshrc / .bashrc / or equivalent)
+* refresh the terminal shells 
+* try `cdi` command
+
+
 
 # Advanced
 
