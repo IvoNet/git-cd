@@ -2,12 +2,19 @@
 
 `gcd` stands for git change directory.
 
+The terminal is the most important tool in my tool-belt and as such I like to give it presents :-)
+I am also a developer and change directories all the time in the terminal between git projects I'm working on.
+This tool has made my life infinitely more pleasurable by having this awesome easy to use functionality!
+
 When using it it will scan your home folder for all git projects and create a database based on it what it finds.
 
 Now you can search for projects lightning fast and change to the directory.
 It will keep statistics of the most chosen projects and if you run `gcd` without parameters it will show the top 10 list.
 
 If it finds only one entry it will move into that folder, but if it finds more entries it will present a menu.
+
+The more it gets used the better your top 10 will become. The tool is very flexible in how you want to use it.
+In order to get the most out of it you should take the tome to read on :-)
 
 # How to use / Install
 
@@ -132,6 +139,14 @@ To create a cron job:
 * save and exit
 * done
 
+# Uninstall
+
+In order to completely uninstall git-cd you need to do the following:
+
+* `brew uninstall git-cd`
+* `rm -rfv ${HOME}/.gcd`
+
+That's it.
 
 # License
 
