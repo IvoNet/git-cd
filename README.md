@@ -28,7 +28,7 @@ The follow the instructions given by the install
 | ccd         | Change directory based on alias              | `ccd [alias]`                     |
 | ccd-help    | show all aliases with their directories      | `ccd-help`                        |
 | ccd-alias   | Set an alias to the active folder            | `ccd-alias <alias>`               |
-| cdi         | gcd + open Intellij Idea in that directory   | `cdi ["regex"/word]`              |
+| cdi         | `gcd` + exec command that directory          | `cdi ["regex"/word]`              |
 | gcd-add     | Add the current folder                       | `gcd-add`                         |
 | gcd-rescan  | Rebuild the cache in the background          | `gcd-rescan`                      |
 | gcd-unalias | removes an alias                             | `gcd-unalias <alias>`             |
