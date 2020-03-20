@@ -32,6 +32,9 @@ if [[ $(echo ${found}| wc -l) -gt 1 ]]; then
             *)
                 if [[ 1 -le "$REPLY" ]] && [[ $REPLY -le ${count} ]]; then
                     project="${PROJECTS_DIR}/${chosen}"
+                    if [[ ! -d ${project} ]]; then
+                        project="${chosen}"
+                    fi
                     project=$(echo ${project}|sed "s/?/ /g")
                     python3 ${GCD_BIN}/gcd.py --increment ${project}
                     echo "Changing to: $project"

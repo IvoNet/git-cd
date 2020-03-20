@@ -31,8 +31,9 @@ The follow the instructions given by the install
 | gcd         | git (global) change directory                | `gcd ["regex"/word]`              |
 | ccd         | Change directory based on alias              | `ccd [alias]`                     |
 | ccd-help    | show all aliases with their directories      | `ccd-help`                        |
+| ccd-alias   | Set an alias to the active folder            | `ccd-alias <alias>`               |
 | cdi         | gcd + open Intellij Idea in that directory   | `cdi ["regex"/word]`              |
-| gcd-alias   | Set an alias to the active folder            | `gcd-alias <alias>`               |
+| gcd-add     | Add the current folder                       | `gcd-add`                         |
 | gcd-rescan  | Rebuild the cache in the background          | `gcd-rescan`                      |
 | gcd-unalias | removes an alias                             | `gcd-unalias <alias>`             |
 | gcd-zap     | Zaps all non existing directories from cache | `gcd-zap`                         |
