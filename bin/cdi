@@ -6,6 +6,6 @@ GCD_COMMAND=${GCD_EXEC:-idea .}
 source ${GCD_BIN}/gcd $1
 if [[ $? -eq 0 ]]; then
     if [[ ! -z "${GCD_COMMAND}" ]]; then
-        ${GCD_COMMAND}
+       exec ${GCD_COMMAND}
     fi
 fi
