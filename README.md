@@ -40,9 +40,26 @@ The follow the instructions given by the install
 | gcdcron     | optional cron job to rebuild the cache       |  -                                |
 
 
+# Options
+
+you can `export` these options in your shell startup script (e.g. .zshrc / .profile / .bashrc) to 
+change the default behavior.
+You can also export it manually to change a setting for the current active shell only.
+
+| Option          | Description                                   | Syntax (examples)                 |
+|:--------------- |:----------------------------------------------|:----------------------------------|
+| GCD_FAVORITES   | determine the amount of favorites to show     | `export GCD_FAVORITES=20`         |
+| GCD_PROJECTS_DIR| overrides the default ${HOME} dir to scan     | `export GCD_PROJECTS_DIR="/"`     |
+| GCD_EXEC        | exec this command after cdi (default `idea .`)| `export GCD_EXEC="code ."`        |
+| GCD_DEV_BIN     | change bin location for dev purposes          | `export GCD_DEV_BIN="$(pwd)"`     |
+  
+
+
 # Example commands
 
 ## search with regular expression
+
+Any regex is allowed but note that you use quotes or escape the 'weird' characters.
 
 ```bash
 gcd "ebook/.*parser$" 
@@ -50,10 +67,8 @@ gcd "ebook/.*parser$"
 
 ## do nothing
 
-If no parameters were given it will present the top 10 list. 
-If no top 10 is (yet) available it will present the first 10 projects sorted by name
-If you want another amount to be shown you can add e.g. `export GCD_FAVORITES=20` to your 
-.zshrc / .bashrc or equivalent
+If no parameters were given it will present the top 10 list.
+The `GCD_FAVORITES` option is used for this command... 
 
 ```bash
 gcd
@@ -81,24 +96,24 @@ sqlite3 -readonly -quote ~/.gcd/gcd.sqlite "SELECT * FROM projects ORDER BY call
 ## Cron job for updating
 
 You can let the tool update itself at interval.
-Please type the following for more help:
+See the following for some examples.
 
 ```bash
-brew info git-cd
+#  This example will update every 6 hours
+0 */6 * * * /usr/local/opt/git-cd/libexec/bin/gcdcron
+#  This one every morning at 8 am
+0 8 * * * /usr/local/opt/git-cd/libexec/bin/gcdcron
+#  This one every day at 7 / 12 / 15 / 20 hours
+0 7,12,15,20 * * * /usr/local/opt/git-cd/libexec/bin/gcdcron
 ```
 
-## Dev bin dir
+To create a cron job:
 
-In order to test new functionality it can be handy do set the GCD_BIN dir to this projects bin dir.
-in order to do that do the following:
+* `crontab -e`
+* add a line like the one above
+* save and exit
+* done
 
-* open a terminal in the this projects bin dir
-
-```bash
-export GCD_DEV_DIR="$(pwd)"
-```
-
-* That will enable dev for this terminal shell session
 
 # License
 
