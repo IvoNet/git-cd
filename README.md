@@ -53,7 +53,9 @@ You can also export it manually to change a setting for the current active shell
 |:--------------- |:----------------------------------------------|:----------------------------------|
 | GCD_FAVORITES   | determine the amount of favorites to show     | `export GCD_FAVORITES=20`         |
 | GCD_PROJECTS_DIR| overrides the default ${HOME} dir to scan     | `export GCD_PROJECTS_DIR="/"`     |
-| GCD_EXEC        | exec command after cdi (default `ls -lsa`)    | `export GCD_EXEC="idea ."`        |
+| GCD_EXEC        | exec command after cdi/cdc (default `ls -lsa`)| `export GCD_EXEC="idea ."`        |
+| CDC_EXEC        | exec command after cdc (default `$GCD_EXEC`)  | `export CDC_EXEC="idea ."`        |
+| CDI_EXEC        | exec command after cdi (default `$GCD_EXEC`)  | `export CDI_EXEC="idea ."`        |
 | GCD_DEV_BIN     | change bin location for dev purposes          | `export GCD_DEV_BIN="$(pwd)"`     |
   
 
