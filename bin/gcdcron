@@ -3,12 +3,20 @@
 GCD_DIR="${HOME}/.gcd"
 GCD_BIN="!!GCDLIBEXECBIN!!"
 CACHE_FILE="${GCD_DIR}/gcd.cache"
+GCD_CACHE_LOG="${GCD_DIR}/cache.log"
 
 if [[ ! -d "${GCD_DIR}" ]]; then
     mkdir -p "${GCD_DIR}"
 fi
 
+TIME="$(date +"%y-%m-%d %H:%M:%S")"
+echo "Update cache started : ${TIME}" >>"${GCD_CACHE_LOG}"
+
 find ${GCD_PROJECTS_DIR:-${HOME}} -type d -name .git -execdir 'pwd' \; 2>/dev/null | sort>"${CACHE_FILE}.new"
 rm -f "${CACHE_FILE}"
 mv "${CACHE_FILE}.new" "${CACHE_FILE}"
 python3 ${GCD_BIN}/gcd.py --import-cache
+
+TIME="$(date +"%y-%m-%d %H:%M:%S")"
+echo "Update cache finished: ${TIME}" >>"${GCD_CACHE_LOG}"
+
