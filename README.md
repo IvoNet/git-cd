@@ -33,12 +33,13 @@ The follow the instructions given by the install
 |:----------- |:---------------------------------------------|:----------------------------------|
 | gcd         | git (global) change directory                | `gcd ["regex"/word]`              |
 | ccd         | Change directory based on alias              | `ccd [alias]`                     |
+| cdc         | `ccd` + exec command in that directory       | `cdc [alias]`                     |
 | ccd-help    | show all aliases with their directories      | `ccd-help`                        |
 | ccd-alias   | Set an alias to the active folder            | `ccd-alias <alias>`               |
-| cdi         | `gcd` + exec command that directory          | `cdi ["regex"/word]`              |
+| ccd-unalias | removes an alias                             | `ccd-unalias <alias>`             |
+| cdi         | `gcd` + exec command in that directory       | `cdi ["regex"/word]`              |
 | gcd-add     | Add the current folder                       | `gcd-add`                         |
-| gcd-rescan  | Rebuild the cache in the background          | `gcd-rescan`                      |
-| gcd-unalias | removes an alias                             | `gcd-unalias <alias>`             |
+| gcd-scan    | Rebuild the cache in the background          | `gcd-scan`                        |
 | gcd-zap     | Zaps all non existing directories from cache | `gcd-zap`                         |
 | gcdcron     | optional cron job to rebuild the cache       |  -                                |
 
@@ -111,6 +112,44 @@ If you want to change this setting to e.g. IntelliJ or VS Code this is easily do
 
 
 # Advanced
+
+## gcd advanced aliases
+
+Some examples of more advanced possible aliases
+
+```bash
+# Start with Visual Studo Code
+alias ccdc='CDC_EXEC="code ." cdc'
+alias cdic='CDI_EXEC="code ." cdi'
+
+# list dir
+alias cdcl='CDC_EXEC="ls -lsa" cdc'
+alias cdil='CDI_EXEC="ls -lsa" cdi'
+```
+
+## Alias already exist?
+
+Add this method to your .zshrc or equivalent and renew your shell.
+When you run ccdg without anything it will see if you already have an alias for the folder you are standing in.
+You can also provide an expression to look for.
+
+```bash
+ccdg() {
+    if [[ -z "$1" ]]; then
+        ccd-help | grep "$(pwd)"
+        if [ $? -ne 0 ]; then
+            echo "No alias found for this directory..."
+        fi
+    else
+        ccd-help | grep "$1"
+        if [ $? -ne 0 ]; then
+                echo "No alias found for this query..."
+        fi
+    fi
+}
+```
+
+e.g. `ccdg foo` will search for an alias or folder in the alias list that contains foo
 
 ## Look at the metrics db
 
