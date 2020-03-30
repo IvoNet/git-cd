@@ -5,6 +5,21 @@ GCD_DIR="${HOME}/.gcd"
 GCD_BIN="${GCD_DEV_BIN:-!!GCDLIBEXECBIN!!}"
 CACHE_FILE="${GCD_DIR}/gcd.cache"
 
+if [[ "$1" == "-h" ]] || [[ "$1" == "--help" ]]; then
+
+cat <<'EOT'
+gcd - Copyright (c) 2020 by Ivo Woltring
+A git change directory command...
+Syntax: gcd [-h|--help|word|"regex"]
+    -h        : this message
+    --help    : this message
+    word      : a spaceless string of characters to search for
+    "regex"   : a regular expression (quoted) for what to search for
+    <no param>: shows the top 10 projects in order of popularity
+EOT
+    exit 0
+fi
+
 if [[ ! -d "${GCD_DIR}" ]]; then
     mkdir -p "${GCD_DIR}"
 fi
