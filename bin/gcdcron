@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 GCD_DIR="${HOME}/.gcd"
-GCD_BIN="!!GCDLIBEXECBIN!!"
+GCD_BIN="${GCD_DEV_BIN:-!!GCDLIBEXECBIN!!}"
 CACHE_FILE="${GCD_DIR}/gcd.cache"
 GCD_CACHE_LOG="${GCD_DIR}/cache.log"
 
@@ -15,7 +15,6 @@ fi
 if [[ -f "${GCD_SCAN_LOCK}" ]]; then
     lock_ts=$(stat -f "%m%t%Sm %N" "${GCD_SCAN_LOCK}"|awk '{print $1}')
     current_ts=$(date +%s)
-    echo "$(($current_ts - $lock_ts))"
     TIME="$(date +"%y-%m-%d %H:%M:%S")"
     if [[ $(($current_ts - $lock_ts )) -gt ${GCD_LOCK_TIMEOUT} ]]; then
         echo "Old scanning lock file found. removing: ${TIME}" >>"${GCD_CACHE_LOG}"
@@ -26,6 +25,7 @@ if [[ -f "${GCD_SCAN_LOCK}" ]]; then
     fi
 fi
 
+touch "${GCD_SCAN_LOCK}"
 TIME="$(date +"%y-%m-%d %H:%M:%S")"
 echo "Update cache started : ${TIME}" >>"${GCD_CACHE_LOG}"
 
