@@ -24,8 +24,12 @@ With [Homebrew](https://brew.sh)
 brew tap ivonet/cli
 brew install git-cd
 ```
-
 The follow the instructions given by the install
+
+NOTE!!! 
+* Make sure to restart all your open terminals after install!
+* The first time you run the gcd command it will take longer (up to minutes) to build up the cache
+
 
 # Commands
 

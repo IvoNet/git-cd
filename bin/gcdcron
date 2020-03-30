@@ -5,8 +5,25 @@ GCD_BIN="!!GCDLIBEXECBIN!!"
 CACHE_FILE="${GCD_DIR}/gcd.cache"
 GCD_CACHE_LOG="${GCD_DIR}/cache.log"
 
+GCD_LOCK_TIMEOUT=600
+GCD_SCAN_LOCK="${GCD_DIR}/scanning.lock"
+
 if [[ ! -d "${GCD_DIR}" ]]; then
-    mkdir -p "${GCD_DIR}"
+    mkdir -p "${GCD_DIR}" 2>/dev/null
+fi
+
+if [[ -f "${GCD_SCAN_LOCK}" ]]; then
+    lock_ts=$(stat -f "%m%t%Sm %N" "${GCD_SCAN_LOCK}"|awk '{print $1}')
+    current_ts=$(date +%s)
+    echo "$(($current_ts - $lock_ts))"
+    TIME="$(date +"%y-%m-%d %H:%M:%S")"
+    if [[ $(($current_ts - $lock_ts )) -gt ${GCD_LOCK_TIMEOUT} ]]; then
+        echo "Old scanning lock file found. removing: ${TIME}" >>"${GCD_CACHE_LOG}"
+        rm -f "${GCD_SCAN_LOCK}"
+    else
+        echo "Scan is already in progress. Skipping: ${TIME}" >>"${GCD_CACHE_LOG}"
+        exit 1
+    fi
 fi
 
 TIME="$(date +"%y-%m-%d %H:%M:%S")"
@@ -20,3 +37,11 @@ python3 ${GCD_BIN}/gcd.py --import-cache
 TIME="$(date +"%y-%m-%d %H:%M:%S")"
 echo "Update cache finished: ${TIME}" >>"${GCD_CACHE_LOG}"
 
+#TODO!! Get a check in of a scan is already running but not older than 15 minutes or so
+#rm -rf "${GCD_DIR}/scanning.prc" 2>/dev/null
+#✝  ~/.gcd  one=$(stat -f "%m%t%Sm %N" gcd.cache|awk '{print $1}')
+# ✝  ~/.gcd  touch gcd.cache
+# ✝  ~/.gcd  two=$(stat -f "%m%t%Sm %N" gcd.cache|awk '{print $1}')
+# ✝  ~/.gcd  echo (($two-$one))
+#zsh: no matches found: ((1585547102-1585546780))
+# ✘ ✝  ~/.gcd  echo "$(($two-$one))"
