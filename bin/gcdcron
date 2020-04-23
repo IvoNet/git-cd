@@ -35,13 +35,5 @@ mv "${CACHE_FILE}.new" "${CACHE_FILE}"
 python3 ${GCD_BIN}/gcd.py --import-cache
 
 TIME="$(date +"%y-%m-%d %H:%M:%S")"
+rm -f "${GCD_SCAN_LOCK}"
 echo "Update cache finished: ${TIME}" >>"${GCD_CACHE_LOG}"
-
-#TODO!! Get a check in of a scan is already running but not older than 15 minutes or so
-#rm -rf "${GCD_DIR}/scanning.prc" 2>/dev/null
-#✝  ~/.gcd  one=$(stat -f "%m%t%Sm %N" gcd.cache|awk '{print $1}')
-# ✝  ~/.gcd  touch gcd.cache
-# ✝  ~/.gcd  two=$(stat -f "%m%t%Sm %N" gcd.cache|awk '{print $1}')
-# ✝  ~/.gcd  echo (($two-$one))
-#zsh: no matches found: ((1585547102-1585546780))
-# ✘ ✝  ~/.gcd  echo "$(($two-$one))"
