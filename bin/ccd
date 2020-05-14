@@ -50,6 +50,11 @@ if [[ $(echo ${found}| wc -l) -gt 1 ]]; then
 else
     project=$(echo ${found}|head -1)
     if [[ -z "${project}" ]]; then
+        if [[ "$1" == "." ]]; then
+           ccd-alias .
+           echo "Setting current project to alias '.' for easy access."
+           return 0
+        fi
         echo "Project not found..."
         return 1
     else
