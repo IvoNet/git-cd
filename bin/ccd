@@ -14,10 +14,10 @@ if [[ -z "$1" ]]; then
     echo "Please provide an alias..."
     echo "Syntax: $(basename $0) ALIAS"
     return 1
-else
-    python3 ${GCD_BIN}/gcd.py --export-alias $1
-    found=$(cat ${CACHE_FILE})
 fi
+
+python3 ${GCD_BIN}/gcd.py --export-alias $1
+found=$(cat ${CACHE_FILE})
 
 if [[ $(echo ${found}| wc -l) -gt 1 ]]; then
      lines=( $(echo ${found} |sed "s~${PROJECTS_DIR}/~~g"|sed "s/ /?/g") )
