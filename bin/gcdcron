@@ -33,6 +33,7 @@ find ${GCD_PROJECTS_DIR:-${HOME}} -type d -name .git -execdir 'pwd' \; 2>/dev/nu
 rm -f "${CACHE_FILE}"
 mv "${CACHE_FILE}.new" "${CACHE_FILE}"
 python3 ${GCD_BIN}/gcd.py --import-cache
+python3 ${GCD_BIN}/gcd.py --zap >/dev/null
 
 TIME="$(date +"%y-%m-%d %H:%M:%S")"
 rm -f "${GCD_SCAN_LOCK}"
