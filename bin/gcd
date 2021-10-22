@@ -17,7 +17,7 @@ Syntax: gcd [-h|--help|word|"regex"]
     "regex"   : a regular expression (quoted) for what to search for
     <no param>: shows the top 10 projects in order of popularity
 EOT
-    exit 0
+    return 0
 fi
 
 if [[ ! -d "${GCD_DIR}" ]]; then
