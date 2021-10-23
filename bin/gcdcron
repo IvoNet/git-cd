@@ -9,31 +9,31 @@ GCD_LOCK_TIMEOUT=600
 GCD_SCAN_LOCK="${GCD_DIR}/scanning.lock"
 
 if [[ ! -d "${GCD_DIR}" ]]; then
-    mkdir -p "${GCD_DIR}" 2>/dev/null
+  mkdir -p "${GCD_DIR}" 2>/dev/null
 fi
 
 if [[ -f "${GCD_SCAN_LOCK}" ]]; then
-    lock_ts=$(stat -f "%m%t%Sm %N" "${GCD_SCAN_LOCK}"|awk '{print $1}')
-    current_ts=$(date +%s)
-    TIME="$(date +"%y-%m-%d %H:%M:%S")"
-    if [[ $(($current_ts - $lock_ts )) -gt ${GCD_LOCK_TIMEOUT} ]]; then
-        echo "Old scanning lock file found. removing: ${TIME}" >>"${GCD_CACHE_LOG}"
-        rm -f "${GCD_SCAN_LOCK}"
-    else
-        echo "Scan is already in progress. Skipping: ${TIME}" >>"${GCD_CACHE_LOG}"
-        exit 1
-    fi
+  lock_ts=$(stat -f "%m%t%Sm %N" "${GCD_SCAN_LOCK}" | awk '{print $1}')
+  current_ts=$(date +%s)
+  TIME="$(date +"%y-%m-%d %H:%M:%S")"
+  if [[ $((current_ts - lock_ts)) -gt ${GCD_LOCK_TIMEOUT} ]]; then
+    echo "Old scanning lock file found. removing: ${TIME}" >>"${GCD_CACHE_LOG}"
+    rm -f "${GCD_SCAN_LOCK}"
+  else
+    echo "Scan is already in progress. Skipping: ${TIME}" >>"${GCD_CACHE_LOG}"
+    exit 1
+  fi
 fi
 
 touch "${GCD_SCAN_LOCK}"
 TIME="$(date +"%y-%m-%d %H:%M:%S")"
 echo "Update cache started : ${TIME}" >>"${GCD_CACHE_LOG}"
 
-find ${GCD_PROJECTS_DIR:-${HOME}} -type d -name .git -execdir 'pwd' \; 2>/dev/null | sort>"${CACHE_FILE}.new"
+find "${GCD_PROJECTS_DIR:-${HOME}}" -type d -name .git -execdir 'pwd' \; 2>/dev/null | sort >"${CACHE_FILE}.new"
 rm -f "${CACHE_FILE}"
 mv "${CACHE_FILE}.new" "${CACHE_FILE}"
-python3 ${GCD_BIN}/gcd.py --import-cache
-python3 ${GCD_BIN}/gcd.py --zap >/dev/null
+python3 "${GCD_BIN}/gcd.py" --import-cache
+python3 "${GCD_BIN}/gcd.py" --zap >/dev/null
 
 TIME="$(date +"%y-%m-%d %H:%M:%S")"
 rm -f "${GCD_SCAN_LOCK}"

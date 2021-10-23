@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
 
 GCD_BIN="${GCD_DEV_BIN:-!!GCDLIBEXECBIN!!}"
-python3 ${GCD_BIN}/gcd.py --add-dir "$(pwd)"
+python3 "${GCD_BIN}/gcd.py" --add-dir "$(pwd)"
 echo "Added: $(pwd)"

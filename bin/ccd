@@ -6,60 +6,63 @@ GCD_BIN="${GCD_DEV_BIN:-!!GCDLIBEXECBIN!!}"
 CACHE_FILE="${GCD_DIR}/gcd.alias"
 
 if [[ ! -d "${GCD_DIR}" ]]; then
-    echo "Please run gcd first to activate it..."
-    return 1
+  echo "Please run gcd first to activate it..."
+  return 1
 fi
 
 if [[ -z "$1" ]]; then
-    echo "Please provide an alias..."
-    echo "Syntax: $(basename $0) ALIAS"
-    return 1
+  echo "Please provide an alias..."
+  echo "Syntax: $(basename "$0") ALIAS"
+  return 1
 fi
 
-python3 ${GCD_BIN}/gcd.py --export-alias $1
-found=$(cat ${CACHE_FILE})
+python3 "${GCD_BIN}/gcd.py" --export-alias $1
+found=$(cat "${CACHE_FILE}")
 
-if [[ $(echo ${found}| wc -l) -gt 1 ]]; then
-     lines=( $(echo ${found} |sed "s~${PROJECTS_DIR}/~~g"|sed "s/ /?/g") )
-     count=$(echo ${found}|wc -l)
-     PS3="Pick a project: "
-     select chosen in ${lines}; do
-        case $REPLY in
-            q|0)
-                echo "Quitting...."
-                return 0
-                ;;
-            *)
-                if [[ 1 -le "$REPLY" ]] && [[ $REPLY -le ${count} ]]; then
-                    project="${PROJECTS_DIR}/${chosen}"
-                    if [[ ! -d ${project} ]]; then
-                        project="${chosen}"
-                    fi
-                    project=$(echo ${project}|sed "s/?/ /g")
-                    python3 ${GCD_BIN}/gcd.py --increment ${project}
-                    echo "Changing to: $project"
-                    cd "${project}"
-                    break
-                else
-                    echo "Wrong choice."
-                    echo "Please try again..."
-                fi
-                ;;
-        esac
-     done
-else
-    project=$(echo ${found}|head -1)
-    if [[ -z "${project}" ]]; then
-        if [[ "$1" == "." ]]; then
-           ccd-alias .
-           echo "Setting current project to alias '.' for easy access."
-           return 0
+if [[ $(echo "${found}" | wc -l) -gt 1 ]]; then
+  lines=()
+  while read -r line; do
+    lines+=("${line/${PROJECTS_DIR}\//}")
+  done <<<"${found}"
+  count=$(wc -l <<<"${found}")
+  PS3="Pick a project: "
+  select chosen in "${lines[@]}"; do
+    case $REPLY in
+    q | 0)
+      echo "Quitting...."
+      return 0
+      ;;
+    *)
+      if [[ 1 -le "$REPLY" ]] && [[ $REPLY -le ${count} ]]; then
+        project="${PROJECTS_DIR}/${chosen}"
+        if [[ ! -d ${project} ]]; then
+          project="${chosen}"
         fi
-        echo "Project not found..."
-        return 1
-    else
-        python3 ${GCD_BIN}/gcd.py --increment ${project}
-        echo "Changing to: ${project}"
-        cd "${project}"
+        project="${project/?/ /}"
+        python3 "${GCD_BIN}/gcd.py" --increment "${project}"
+        echo "Changing to: $project"
+        cd "${project}" || return 1
+        break
+      else
+        echo "Wrong choice."
+        echo "Please try again..."
+      fi
+      ;;
+    esac
+  done
+else
+  project=$(echo "${found}" | head -1)
+  if [[ -z "${project}" ]]; then
+    if [[ "$1" == "." ]]; then
+      ccd-alias .
+      echo "Setting current project to alias '.' for easy access."
+      return 0
     fi
+    echo "Project not found..."
+    return 1
+  else
+    python3 "${GCD_BIN}/gcd.py" --increment "${project}"
+    echo "Changing to: ${project}"
+    cd "${project}" || return 1
+  fi
 fi

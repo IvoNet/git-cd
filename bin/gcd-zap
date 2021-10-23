@@ -2,5 +2,5 @@
 
 GCD_BIN="${GCD_DEV_BIN:-!!GCDLIBEXECBIN!!}"
 
-python3 ${GCD_BIN}/gcd.py --zap
+python3 "${GCD_BIN}/gcd.py" --zap
 echo "git-cd - zapped all unknown folders from cache."

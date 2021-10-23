@@ -2,7 +2,7 @@
 
 GCD_BIN="${GCD_DEV_BIN:-!!GCDLIBEXECBIN!!}"
 
-${GCD_BIN}/gcdcron &
+"${GCD_BIN}"/gcdcron &
 echo "git-cd scan started in background."
 echo "This should not disrupt your current usage of gcd."
 echo "It might miss a few projects until it is finished scanning..."

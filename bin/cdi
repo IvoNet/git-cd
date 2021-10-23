@@ -3,9 +3,8 @@ GCD_DIR="${HOME}/.gcd"
 GCD_BIN="${GCD_DEV_BIN:-/usr/local/bin}"
 GCD_COMMAND="${CDI_EXEC:-${GCD_EXEC:-ls -lsa}}"
 
-source ${GCD_BIN}/gcd $1
-if [[ $? -eq 0 ]]; then
-    if [[ ! -z "${GCD_COMMAND}" ]]; then
-       eval ${GCD_COMMAND}
-    fi
+if source "${GCD_BIN}"/gcd "$1"; then
+  if [[ -n "${GCD_COMMAND}" ]]; then
+    eval "${GCD_COMMAND}"
+  fi
 fi

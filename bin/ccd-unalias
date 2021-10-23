@@ -1,12 +1,12 @@
 #!/usr/bin/env bash
 
 if [[ -z "$1" ]]; then
-    echo "Syntax: $(basename $0) alias_name"
-    echo "This will remove the named alias from all assigned directories."
-    exit 0
+  echo "Syntax: $(basename $0) alias_name"
+  echo "This will remove the named alias from all assigned directories."
+  exit 0
 fi
 
 GCD_BIN="${GCD_DEV_BIN:-!!GCDLIBEXECBIN!!}"
-python3 ${GCD_BIN}/gcd.py --unalias "${PARAM}"
-python3 ${GCD_BIN}/gcd.py --aliases
+python3 "${GCD_BIN}/gcd.py" --unalias "${PARAM}"
+python3 "${GCD_BIN}/gcd.py" --aliases
 echo "Removed alias: ${PARAM}"

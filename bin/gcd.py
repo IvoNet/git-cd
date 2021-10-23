@@ -5,7 +5,6 @@ import sqlite3
 from pathlib import Path
 from sqlite3 import Error
 
-# DATABASE = r"%s/dev/git-cd/gcd.sqlite" % str(Path.home())
 DATABASE = r"%s/.gcd/gcd.sqlite" % str(Path.home())
 CACHE_FILE = r"%s/.gcd/gcd.cache" % str(Path.home())
 ALIAS_FILE = r"%s/.gcd/gcd.alias" % str(Path.home())
@@ -225,9 +224,8 @@ def show_aliases(conn):
 
 
 def main(args):
-    if args.create_db:
-        if os.path.isfile(DATABASE):
-            os.remove(DATABASE)
+    if args.create_db and os.path.isfile(DATABASE):
+        os.remove(DATABASE)
 
     conn = create_connection(DATABASE)
 

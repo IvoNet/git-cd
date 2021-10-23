@@ -4,8 +4,7 @@ GCD_DIR="${HOME}/.gcd"
 GCD_CACHE_LOG="${GCD_DIR}/cache.log"
 
 if [[ "$1" == "-h" ]] || [[ "$1" == "--help" ]]; then
-
-cat <<'EOT'
+  cat <<'EOT'
     gcd-logs (c) Copyright 2020 by Ivo Woltring
     Syntax: gcd-log [-h|--help|clean]
         -h        : this message
@@ -13,15 +12,14 @@ cat <<'EOT'
         clean     : cleans the log
         <no param>: shows the log
 EOT
-    exit 0
+  exit 0
 fi
 
 if [[ "$1" == "clean" ]]; then
-    echo "Removing log file..."
-    rm -f "${GCD_CACHE_LOG}" 2>/dev/null
-    echo "done."
-    exit 0
+  echo "Removing log file..."
+  rm -f "${GCD_CACHE_LOG}" 2>/dev/null
+  echo "done."
+  exit 0
 fi
 
 cat "${GCD_CACHE_LOG}"
-

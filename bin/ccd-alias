@@ -1,11 +1,11 @@
 #!/usr/bin/env bash
 
 if [[ -z "$1" ]]; then
-    echo "Syntax: $(basename $0) alias_name"
-    echo "This will create an alias for the current folder"
-    exit 0
+  echo "Syntax: $(basename $0) alias_name"
+  echo "This will create an alias for the current folder"
+  exit 0
 fi
 
 GCD_BIN="${GCD_DEV_BIN:-!!GCDLIBEXECBIN!!}"
-python3 ${GCD_BIN}/gcd.py --alias "$1" "$(pwd)"
-python3 ${GCD_BIN}/gcd.py --get-alias "$1"
+python3 "${GCD_BIN}/gcd.py" --alias "$1" "$(pwd)"
+python3 "${GCD_BIN}/gcd.py" --get-alias "$1"
