@@ -72,7 +72,7 @@ if [[ $(wc -l <<<"${found}") -gt 1 ]]; then
           # if fully qualified outside HOME
           project="${chosen}"
         fi
-        project="${project/\?/ /}"
+        project="${project//\?/ /}"
         python3 "${GCD_BIN}"/gcd.py --increment "${project}"
         echo "Changing to: $project"
         cd "${project}" || return 1
