@@ -41,7 +41,7 @@ if [[ ! -f "${CACHE_FILE}" ]]; then
     python3 ${GCD_BIN}/gcd.py --import-cache
 fi
 
-python3 ${GCD_BIN}/gcd.py --export-cache 2>/dev/null
+python3 "${GCD_BIN}"/gcd.py --export-cache 2>/dev/null
 if [[ $? -ne 0 ]]; then
     rm -rf "${GCD_DIR}" 2>/dev/null
     echo "[ERROR] The metrics db was corrupted. Fixed the problem. Please run again..."
@@ -49,16 +49,19 @@ if [[ $? -ne 0 ]]; then
 fi
 
 if [[ -z "$1" ]]; then
-    found=$(cat "${CACHE_FILE}"|sed "s~${PROJECTS_DIR}/~~g"|head -n ${GCD_FAVORITES:-10})
+    found=$(cat "${CACHE_FILE}"|sed "s~${PROJECTS_DIR}/~~g"|head -n "${GCD_FAVORITES:-10}")
 else
-    found=$(grep $1 ${CACHE_FILE})
+    found=$(grep $1 "${CACHE_FILE}")
 fi
 
-if [[ $(echo ${found}| wc -l) -gt 1 ]]; then
-     lines=( $(echo ${found} |sed "s~${PROJECTS_DIR}/~~g"|sed "s/ /?/g") )
-     count=$(echo ${found}|wc -l)
+if [[ $(wc -l <<< "${found}" ) -gt 1 ]]; then
+     lines=()
+         while read -r line; do
+             lines+=("$line")
+         done <<< "${found}"
+     count=$(wc -l <<< "${found}")
      PS3="Pick a project: "
-     select chosen in ${lines}; do
+     select chosen in "${lines[@]}"; do
         case $REPLY in
             q|0)
                 echo "Quitting...."
@@ -84,7 +87,7 @@ if [[ $(echo ${found}| wc -l) -gt 1 ]]; then
         esac
      done
 else
-    project=$(echo ${found}|head -1)
+    project=$(echo "${found}"|head -1)
     if [[ -z "${project}" ]]; then
         echo "Project not found..."
         return 1
