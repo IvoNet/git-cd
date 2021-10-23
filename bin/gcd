@@ -68,8 +68,7 @@ if [[ $(wc -l <<<"${found}") -gt 1 ]]; then
     *)
       if [[ 1 -le "$REPLY" ]] && [[ $REPLY -le ${count} ]]; then
         project="${PROJECTS_DIR}/${chosen}"
-        if [[ ! -d ${project} ]]; then
-          # if fully qualified outside HOME
+        if [[ ! -d "${project}" ]]; then
           project="${chosen}"
         fi
         project="${project//\?/ /}"
@@ -90,8 +89,13 @@ else
     echo "Project not found..."
     return 1
   else
+    project="${PROJECTS_DIR}/${project}"
+    if [[ ! -d "${project}" ]]; then
+      project="${chosen}"
+    fi
+    project="${project//\?/ /}"
     python3 "${GCD_BIN}"/gcd.py --increment "${project}"
-    echo "Changing to: ${project}"
+    echo "Changing to1: ${project}"
     cd "${project}" || return 1
   fi
 fi

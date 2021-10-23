@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
-GCD_DIR="${HOME}/.gcd"
 GCD_BIN="${GCD_DEV_BIN:-/usr/local/bin}"
 GCD_COMMAND="${CDC_EXEC:-${GCD_EXEC:-ls -lsa}}"
 

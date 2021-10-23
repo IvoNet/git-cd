@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 if [[ -z "$1" ]]; then
-  echo "Syntax: $(basename $0) alias_name"
+  echo "Syntax: $(basename "${0}") alias_name"
   echo "This will remove the named alias from all assigned directories."
   exit 0
 fi
