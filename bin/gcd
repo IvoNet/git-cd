@@ -26,19 +26,19 @@ fi
 
 if [[ ! -f "${GCD_DIR}/gcd.sqlite" ]]; then
     echo "Initializing metrics db..."
-    python3 ${GCD_BIN}/gcd.py --create-db
+    python3 "${GCD_BIN}"/gcd.py --create-db
     if [[ -f "${CACHE_FILE}" ]]; then
         echo "Importing into metrics db..."
-        python3 ${GCD_BIN}/gcd.py --import-cache
+        python3 "${GCD_BIN}"/gcd.py --import-cache
     fi
 fi
 
 if [[ ! -f "${CACHE_FILE}" ]]; then
     echo "Scanning for git projects..."
     echo "This can take a while depending on the number of git projects found..."
-    find ${PROJECTS_DIR} -type d -name .git -execdir 'pwd' \; 2>/dev/null | sort>${CACHE_FILE}
+    find "${PROJECTS_DIR}" -type d -name .git -execdir 'pwd' \; 2>/dev/null | sort>"${CACHE_FILE}"
     echo "Importing into metrics db..."
-    python3 ${GCD_BIN}/gcd.py --import-cache
+    python3 "${GCD_BIN}"/gcd.py --import-cache
 fi
 
 python3 "${GCD_BIN}"/gcd.py --export-cache 2>/dev/null
@@ -92,7 +92,7 @@ else
         echo "Project not found..."
         return 1
     else
-        python3 ${GCD_BIN}/gcd.py --increment "${project}"
+        python3 "${GCD_BIN}"/gcd.py --increment "${project}"
         echo "Changing to: ${project}"
         cd "${project}"
     fi
