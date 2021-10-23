@@ -47,8 +47,7 @@ if ! python3 "${GCD_BIN}"/gcd.py --export-cache 2>/dev/null; then
 fi
 
 if [[ -z "$1" ]]; then
-#  found=$(cat "${CACHE_FILE}" | sed "s~${PROJECTS_DIR}/~~g" | head -n "${GCD_FAVORITES:-10}")
-  found=$("${CACHE_FILE/${PROJECTS_DIR}\///}" | head -n "${GCD_FAVORITES:-10}")
+  found=$(cat "${CACHE_FILE}" | sed "s~${PROJECTS_DIR}/~~g" | head -n "${GCD_FAVORITES:-10}")
 else
   found=$(grep "$1" "${CACHE_FILE}")
 fi
