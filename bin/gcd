@@ -89,13 +89,8 @@ else
     echo "Project not found..."
     return 1
   else
-    project="${PROJECTS_DIR}/${project}"
-    if [[ ! -d "${project}" ]]; then
-      project="${chosen}"
-    fi
-    project="${project//\?/ /}"
     python3 "${GCD_BIN}"/gcd.py --increment "${project}"
-    echo "Changing to1: ${project}"
-    cd "${project}" || return 1
+    echo "Changing to: ${project}"
+    cd "${project}" || return 0
   fi
 fi
