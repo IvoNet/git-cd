@@ -7,6 +7,6 @@ if [[ -z "$1" ]]; then
 fi
 
 GCD_BIN="${GCD_DEV_BIN:-!!GCDLIBEXECBIN!!}"
-python3 "${GCD_BIN}/gcd.py" --unalias "${PARAM}"
+python3 "${GCD_BIN}/gcd.py" --unalias "${1}"
 python3 "${GCD_BIN}/gcd.py" --aliases
-echo "Removed alias: ${PARAM}"
+echo "Removed alias: ${1}"
