@@ -7,11 +7,13 @@ CACHE_FILE="${GCD_DIR}/gcd.cache"
 
 if [[ "$1" == "-h" ]] || [[ "$1" == "--help" ]]; then
   cat <<'EOT'
-gcd - Copyright (c) 2021 by Ivo Woltring
+git-cd - Copyright (c) 2021 by Ivo Woltring
 A git change directory command...
-Syntax: gcd [-h|--help|word|"regex"]
+Syntax: gcd [-h|--help|--clean|--scan|word|"regex"]
     -h        : this message
     --help    : this message
+    --clean   : remove all gcd entries that no longer exist
+    --scan    : start the gcd-scan process
     word      : a spaceless string of characters to search for
     "regex"   : a regular expression (quoted) for what to search for
     <no param>: shows the top 10 projects in order of popularity
@@ -44,6 +46,16 @@ if ! python3 "${GCD_BIN}"/gcd.py --export-cache 2>/dev/null; then
   rm -rf "${GCD_DIR}" 2>/dev/null
   echo "[ERROR] The metrics db was corrupted. Fixed the problem. Please run again..."
   return 1
+fi
+
+if [[ "$1" == "--scan" ]]; then
+  gcd-scan
+  return 0;
+fi
+
+if [[ "$1" == "--clean" ]]; then
+  gcd-zap
+  return 0;
 fi
 
 if [[ -z "$1" ]]; then
