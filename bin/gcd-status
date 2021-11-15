@@ -1,12 +1,10 @@
 #!/usr/bin/env bash
 
-GCD_BIN="${GCD_DEV_BIN:-!!GCDLIBEXECBIN!!}"
-
 if [ ! -f "${HOME}/.gcd/cache.log" ]; then
     echo "Please do a gcd-scan first..."
     exit 0
 fi
-STATUS=$(${GCD_BIN}/gcd-logs | tail -1)
+STATUS=$(gcd-logs | tail -1)
 if [ -z "${STATUS}" ]; then
   echo "Please do a gcd-scan first..."
   exit 0
