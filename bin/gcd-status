@@ -1,6 +1,9 @@
 #!/usr/bin/env bash
 
-if [ ! -f "${HOME}/.gcd/cache.log" ]; then
+GCD_DIR="${HOME}/.gcd"
+GCD_CACHE_LOG="${GCD_DIR}/cache.log"
+
+if [ ! -f "${GCD_CACHE_LOG}" ]; then
     echo "Please do a gcd-scan first..."
     exit 0
 fi
