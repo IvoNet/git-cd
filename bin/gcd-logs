@@ -20,6 +20,9 @@ if [[ "$1" == "clean" ]]; then
   rm -f "${GCD_CACHE_LOG}" 2>/dev/null
   echo "done."
   exit 0
+elif [ ! -f "${GCD_CACHE_LOG}" ]; then
+  exit 0
 fi
+
 
 cat "${GCD_CACHE_LOG}"
