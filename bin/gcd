@@ -58,6 +58,11 @@ if [[ "$1" == "--clean" ]]; then
   return 0;
 fi
 
+if [[ "$1" == "--status" ]]; then
+  gcd-status
+  return 0;
+fi
+
 if [[ -z "$1" ]]; then
   found=$(cat "${CACHE_FILE}" | sed "s~${PROJECTS_DIR}/~~g" | head -n "${GCD_FAVORITES:-10}")
 else
