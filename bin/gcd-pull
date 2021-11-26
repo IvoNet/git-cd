@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+
+GCD_BIN="${GCD_DEV_BIN:-!!GCDLIBEXECBIN!!}"
+GCD_DIR="${HOME}/.gcd"
+CACHE_FILE="${GCD_DIR}/gcd.cache"
+
+gcd-zap >/dev/null 2>&1
+python3 "${GCD_BIN}"/gcd.py --export-cache 2>/dev/null
+
+while IFS="" read -r project || [ -n "${project}" ]; do
+  if [[ -d "${project}/.git" ]]; then
+    if git -C "${project}" ls-remote >/dev/null 2>&1; then
+      echo "Updating            : ${project}"
+      git -C "${project}" pull -q
+    else
+      echo "Skipping (no remote): ${project}"
+    fi
+  else
+    echo "Skipping (not git)  : ${project}"
+  fi
+done <"${CACHE_FILE}"

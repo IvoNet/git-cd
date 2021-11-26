@@ -14,6 +14,7 @@ Syntax: gcd [-h|--help|--clean|--scan|word|"regex"]
     --help    : this message
     --clean   : remove all gcd entries that no longer exist
     --scan    : start the gcd-scan process
+    --pull    : do a git pull on all projects (can take a long time)
     word      : a spaceless string of characters to search for
     "regex"   : a regular expression (quoted) for what to search for
     <no param>: shows the top 10 projects in order of popularity
@@ -60,6 +61,11 @@ fi
 
 if [[ "$1" == "--status" ]]; then
   gcd-status
+  return 0;
+fi
+
+if [[ "$1" == "--pull" ]]; then
+  gcd-pull
   return 0;
 fi
 
