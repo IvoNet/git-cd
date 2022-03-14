@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-GCD_BIN="${GCD_DEV_BIN:-/usr/local/bin}"
+GCD_BIN="${GCD_DEV_BIN:-!!GCDLIBEXECBIN!!}"
 GCD_COMMAND="${CDI_EXEC:-${GCD_EXEC:-ls -lsa}}"
 
 if source "${GCD_BIN}"/gcd "$1"; then
