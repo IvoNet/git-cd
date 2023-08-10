@@ -1,0 +1,40 @@
+#!/usr/bin/env bash
+
+echo "git-cd reset counters"
+echo "This action will reset all the metrics and everything else for gcd."
+read -p "Are you sure? " -n 1 -r
+if [[ $REPLY =~ ^[Yy]$ ]]; then
+
+  sqlite3 "${HOME}/.gcd/gcd.sqlite" <<EOF
+    update projects
+    set called = 0
+    where project in (select project
+                      from projects
+                      where called > 0
+                        and called < (select min(called)
+                        from (select called
+                              from projects order by called desc limit 3)));
+
+    update projects
+    set called = 3
+    where called = (select max(called)
+                    from projects);
+
+    update projects
+    set called = 2
+    where called = (select max(called)
+                    from projects);
+
+
+    update projects
+    set called = 1
+    where called = (select max(called)
+                    from projects);
+
+
+    select *
+    from projects
+    order by called desc
+    limit 10;
+EOF
+fi

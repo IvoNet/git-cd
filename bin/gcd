@@ -72,7 +72,7 @@ fi
 if [[ -z "$1" ]]; then
   found=$(cat "${CACHE_FILE}" | sed "s~${PROJECTS_DIR}/~~g" | head -n "${GCD_FAVORITES:-10}")
 else
-  found=$(grep "$1" "${CACHE_FILE}")
+  found=$(grep "${1//./.*}" "${CACHE_FILE}")
 fi
 
 if [[ $(wc -l <<<"${found}") -gt 1 ]]; then
